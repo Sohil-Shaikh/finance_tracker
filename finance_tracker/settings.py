@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-20ohlcohb_t@6p%31vsjspwehvp&=!vj$3b@x)g!4^xrbittw9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1',
+                'localhost',
+                '.onrender.com'
+                ]
 
 
 # Application definition
@@ -57,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'finance_tracker.urls'
@@ -124,6 +128,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
+ALLOWED_HOSTS = ["*"]
 
 STATIC_URL = 'static/'
 
@@ -132,6 +137,8 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"     
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
