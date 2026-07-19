@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Dashboard
+{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4 fw-bold">Dashboard</h2>
+
+  <div class="row g-4">
+    <div class="col-lg-3">
+      <div class="card bg-success text-white">
+        <div class="card-body">
+          <h6>Total Income</h6>
+
+          <h2>₹ {{ total_income }}</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <div class="card bg-danger text-white">
+        <div class="card-body">
+          <h6>Total Expense</h6>
+
+          <h2>₹ {{ total_expense }}</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <div class="card bg-primary text-white">
+        <div class="card-body">
+          <h6>Balance</h6>
+
+          <h2>₹ {{ balance }}</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <div class="card bg-warning">
+        <div class="card-body">
+          <h6>Savings</h6>
+
+          <h2>{{ savings_percentage }}%</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt-5">
+    <div class="card-header">Income vs Expense</div>
+
+    <div class="card-body">
+      <div class="chart-container">
+        <canvas id="financeChart" data-income="{{ income_chart }}" data-expense="{{ expense_chart }}"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const canvas = document.getElementById("financeChart");
+
+    if (!canvas) return;
+
+    const income = parseFloat(canvas.dataset.income);
+    const expense = parseFloat(canvas.dataset.expense);
+
+    new Chart(canvas, {
+
+        type: "bar",
+
+        data: {
+
+            labels: ["Income", "Expense"],
+
+            datasets: [{
+
+                label: "Amount (₹)",
+
+                data: [income, expense],
+
+                backgroundColor: [
+                    "#198754",
+                    "#dc3545"
+                ],
+
+                borderRadius: 10
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true
+
+                }
+
+            }
+
+        }
+
+    });
+
+});
+</script>
+{% endblock %}

@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Financial Reports
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h2 class="fw-bold">📊 Financial Reports</h2>
+        <p class="text-muted">Analyze your income, expenses, and savings.</p>
+      </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card bg-success text-white shadow">
+          <div class="card-body">
+            <h6>Total Income</h6>
+
+            <h2>₹ {{ income }}</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card bg-danger text-white shadow">
+          <div class="card-body">
+            <h6>Total Expense</h6>
+
+            <h2>₹ {{ expense }}</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card bg-primary text-white shadow">
+          <div class="card-body">
+            <h6>Current Balance</h6>
+
+            <h2>₹ {{ balance }}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="row mt-5">
+      <div class="col-lg-8">
+        <div class="card shadow">
+          <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">Expense Category Distribution</h5>
+          </div>
+
+          <div class="card-body">
+            {% if data != '[]' %}
+              <div class="chart-container">
+                <canvas id="expenseChart"></canvas>
+              </div>
+            {% else %}
+              <div class="text-center py-5">
+                <h5>No Expense Data Available</h5>
+
+                <p class="text-muted">Please add some expenses to view the chart.</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card shadow">
+          <div class="card-header bg-secondary text-white">Statistics</div>
+
+          <div class="card-body">
+            <p>
+              <strong>Total Income:</strong> ₹ {{ income }}
+            </p>
+
+            <p>
+              <strong>Total Expense:</strong> ₹ {{ expense }}
+            </p>
+
+            <p>
+              <strong>Balance:</strong> ₹ {{ balance }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if data != '[]' %}
+    <script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const ctx = document.getElementById("expenseChart");
+
+    if (ctx) {
+
+        new Chart(ctx, {
+
+            type: "pie",
+
+            data: {
+
+                labels: {{ labels|safe }},
+
+                datasets: [{
+
+                    data: {{ data|safe }},
+
+                    backgroundColor: [
+
+                        "#0d6efd",
+                        "#198754",
+                        "#dc3545",
+                        "#ffc107",
+                        "#6f42c1",
+                        "#fd7e14",
+                        "#20c997",
+                        "#6c757d"
+
+                    ],
+
+                    borderColor: "#ffffff",
+
+                    borderWidth: 2
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                plugins: {
+
+                    legend: {
+
+                        position: "bottom"
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+});
+
+</script>
+  {% endif %}
+{% endblock %}
